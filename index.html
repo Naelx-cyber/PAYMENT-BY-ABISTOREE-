@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAYMENT BY ABISTROREE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .floating-qr {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            display: none;
+        }
+        .qr-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 999;
+            display: none;
+        }
+        .close-qr {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff3b3b;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .qr-container {
+            max-width: 80%;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8 relative">
+            <h1 class="text-3xl font-bold text-indigo-800">PAYMENT BY ABISTROREE</h1>
+            <p class="text-gray-600 mt-2">Silakan pilih metode pembayaran yang tersedia</p>
+            <button onclick="document.getElementById('settingsModal').classList.remove('hidden')" class="absolute top-0 right-0 p-2 text-gray-600 hover:text-indigo-600">
+                <i class="fas fa-cog text-xl"></i>
+            </button>
+        </header>
+
+        <!-- Payment Methods -->
+        <div class="max-w-md mx-auto space-y-6">
+            <!-- Dana -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="rounded-lg bg-blue-100 p-3 mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/ec6736d9-96ef-4d7b-9d24-2d3106f4127e.png" alt="Logo DANA with blue background and white letter D" class="w-10 h-10">
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800">DANA</h2>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-700 mb-2">Nomor DANA:</p>
+                        <div class="flex items-center justify-between bg-gray-100 px-4 py-3 rounded-lg">
+                            <span class="font-mono">082213781788</span>
+                            <button onclick="copyToClipboard('082213781788', 'DANA')" class="text-indigo-600 hover:text-indigo-800">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-2">a.n Daniel **** kusuma</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gopay -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="rounded-lg bg-green-100 p-3 mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/b1173e59-8ad2-447a-9788-d69bab2db0fc.png" alt="Logo GoPay with green gradient background and white GP letters" class="w-10 h-10">
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800">GOPAY</h2>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-700 mb-2">Nomor GOPAY:</p>
+                        <div class="flex items-center justify-between bg-gray-100 px-4 py-3 rounded-lg">
+                            <span class="font-mono">082213781788</span>
+                            <button onclick="copyToClipboard('082213781788', 'GOPAY')" class="text-indigo-600 hover:text-indigo-800">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-2">a.n Daniel **** kusuma</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OVO -->
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="rounded-lg bg-purple-100 p-3 mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/f52681a2-d27d-46e9-88fa-6ba8220b159a.png" alt="Logo OVO with purple to violet gradient background and white OVO letter" class="w-10 h-10">
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800">OVO</h2>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-700 mb-2">Nomor OVO:</p>
+                        <div class="flex items-center justify-between bg-gray-100 px-4 py-3 rounded-lg">
+                            <span class="font-mono">085157255868</span>
+                            <button onclick="copyToClipboard('085157255868', 'OVO')" class="text-indigo-600 hover:text-indigo-800">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-2">a.n Abi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- QRIS Section -->
+        <div class="max-w-md mx-auto mt-8">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="rounded-lg bg-gradient-to-r from-yellow-400 to-orange-500 p-3 mr-4">
+                            <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/05e77cee-bfed-4571-af00-5f1e5cae8921.png" alt="Logo QRIS with yellow and orange gradient background and white QRIS letters" class="w-10 h-10">
+                        </div>
+                        <h2 class="text-xl font-semibold text-gray-800">QRIS</h2>
+                    </div>
+
+                    <!-- Single QRIS Display -->
+                    <div id="qrisContainer" class="mt-4">
+                        <div class="bg-gray-100 rounded-lg overflow-hidden cursor-pointer">
+                            <img id="currentQRIS" src="" 
+                                 alt="Current QRIS payment code" 
+                                 class="w-full h-auto"
+                                 onclick="if(localStorage.getItem('currentQRIS')) showFloatingQR(localStorage.getItem('currentQRIS'))"
+                                 onerror="this.src='https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/125bebc6-1993-4bd2-9632-49a1026381ae.png'">
+                        </div>
+                    </div>
+
+                    <!-- Replace QRIS Button -->
+                    <button onclick="document.getElementById('addQRISModal').classList.remove('hidden')" class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-lg transition duration-200">
+                        <i class="fas fa-sync mr-2"></i> Ganti QRIS
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thanks Note -->
+        <div class="max-w-md mx-auto mt-8 text-center text-gray-500 text-sm">
+            <p>Terima kasih telah menggunakan layanan pembayaran kami</p>
+        </div>
+    </div>
+
+    <!-- QRIS Floating Modal -->
+    <div id="qrBackdrop" class="qr-backdrop"></div>
+    <div id="floatingQR" class="floating-qr">
+        <button class="close-qr" onclick="closeFloatingQR()">
+            <i class="fas fa-times"></i>
+        </button>
+        <div class="qr-container">
+            <img id="floatingQRImg" src="" alt="Floating QRIS code for payment" class="w-full h-auto" src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/1d48f258-a329-44fe-bf1b-dad757b310ac.png">
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Pengaturan Tema</h3>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Password:</label>
+                <input type="password" id="themePassword" class="w-full px-3 py-2 border rounded-lg">
+                <p id="themePasswordError" class="text-red-500 text-sm mt-1 hidden">Password salah!</p>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Warna Background:</label>
+                <input type="color" id="bgColorPicker" value="#f3f4f6" class="w-full">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Warna Kotak Pembayaran:</label>
+                <input type="color" id="paymentBoxColorPicker" value="#ffffff" class="w-full">
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Warna Kotak QRIS:</label>
+                <input type="color" id="qrisBoxColorPicker" value="#ffffff" class="w-full">
+            </div>
+            
+            <div class="flex justify-end space-x-3">
+                <button onclick="hideSettingsModal()" class="px-4 py-2 border rounded-lg hover:bg-gray-100">Batal</button>
+                <button onclick="saveThemeSettings()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add QRIS Modal -->
+    <div id="addQRISModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Ganti QRIS</h3>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Password:</label>
+                <input type="password" id="qrPassword" class="w-full px-3 py-2 border rounded-lg">
+                <p id="passwordError" class="text-red-500 text-sm mt-1 hidden">Password salah!</p>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Upload QRIS:</label>
+                <input type="file" id="qrImageUpload" accept="image/*" class="w-full px-3 py-2 border rounded-lg">
+                <div id="imagePreview" class="mt-2 hidden">
+                    <img id="previewImage" src="#" alt="QRIS Preview" class="max-w-full h-auto rounded-lg">
+                </div>
+            </div>
+            <div class="flex justify-end space-x-3">
+                <button onclick="hideAddQRISModal()" class="px-4 py-2 border rounded-lg hover:bg-gray-100">Batal</button>
+                <button onclick="addQRIS()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load saved settings and QRIS from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSavedQRIS();
+            
+            // Apply theme settings if they exist
+            const bgColor = localStorage.getItem('bgColor');
+            const paymentBoxColor = localStorage.getItem('paymentBoxColor');
+            const qrisBoxColor = localStorage.getItem('qrisBoxColor');
+            
+            if (bgColor) {
+                document.body.style.backgroundColor = bgColor;
+                document.querySelector('body').classList.remove('bg-gray-100');
+            }
+            if (paymentBoxColor) {
+                document.querySelectorAll('.bg-white').forEach(el => {
+                    el.style.backgroundColor = paymentBoxColor;
+                    el.classList.remove('bg-white');
+                });
+            }
+            if (qrisBoxColor) {
+                const qrisBox = document.querySelector('.bg-white.rounded-xl.shadow-md').lastElementChild;
+                qrisBox.style.backgroundColor = qrisBoxColor;
+                qrisBox.classList.remove('bg-white');
+            }
+        });
+
+        // Copy to clipboard function
+        function copyToClipboard(text, service) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`Nomor ${service} berhasil disalin: ${text}`);
+            });
+        }
+
+        // Show QRIS modal
+        function showAddQRISModal() {
+            document.getElementById('addQRISModal').classList.remove('hidden');
+        }
+
+        // Preview image before upload
+        document.getElementById('qrImageUpload').addEventListener('change', function(e) {
+            const preview = document.getElementById('previewImage');
+            const previewContainer = document.getElementById('imagePreview');
+            
+            if (e.target.files.length) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            } else {
+                previewContainer.classList.add('hidden');
+            }
+        });
+
+        // Hide QRIS modal
+        function hideAddQRISModal() {
+            document.getElementById('addQRISModal').classList.add('hidden');
+            document.getElementById('qrPassword').value = '';
+            document.getElementById('qrImageUrl').value = '';
+            document.getElementById('passwordError').classList.add('hidden');
+        }
+
+        // Add new QRIS
+        function addQRIS() {
+            const password = document.getElementById('qrPassword').value;
+            const fileInput = document.getElementById('qrImageUpload');
+            
+            if (password !== 'ABIGANTENGSTORE21') {
+                document.getElementById('passwordError').classList.remove('hidden');
+                return;
+            }
+
+            if (!fileInput.files || fileInput.files.length === 0) {
+                alert('Silakan pilih gambar QRIS');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                saveQRIS(e.target.result);
+                hideAddQRISModal();
+            }
+            
+            reader.readAsDataURL(file);
+        }
+
+        // Preview image before upload
+        document.getElementById('qrImageUpload').addEventListener('change', function(e) {
+            const preview = document.getElementById('previewImage');
+            const previewContainer = document.getElementById('imagePreview');
+            
+            if (e.target.files.length) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    previewContainer.classList.remove('hidden');
+                }
+                reader.readAsDataURL(e.target.files[0]);
+            } else {
+                previewContainer.classList.add('hidden');
+            }
+        });
+
+        // Save single QRIS to localStorage
+        function saveQRIS(imageData) {
+            localStorage.setItem('currentQRIS', imageData);
+            document.getElementById('currentQRIS').src = imageData;
+        }
+
+        // Load single QRIS from localStorage
+        function loadSavedQRIS() {
+            const currentQRIS = localStorage.getItem('currentQRIS');
+            const qrContainer = document.getElementById('qrisContainer');
+            
+            if (!currentQRIS) {
+                qrContainer.innerHTML = '<p class="text-gray-500 text-center">Belum ada QRIS tersimpan</p>';
+                return;
+            }
+            
+            document.getElementById('currentQRIS').src = currentQRIS;
+        }
+
+        // Show replace QRIS modal
+        function showReplaceQRISModal() {
+            document.getElementById('addQRISModal').classList.remove('hidden');
+        }
+
+        // Show floating QR
+        function showFloatingQR(imageUrl) {
+            const floatingQR = document.getElementById('floatingQR');
+            const qrBackdrop = document.getElementById('qrBackdrop');
+            const qrImg = document.getElementById('floatingQRImg');
+            
+            // Set image src and calculate size based on viewport
+            qrImg.src = imageUrl;
+            const maxWidth = Math.min(window.innerWidth * 0.8, 400);
+            floatingQR.style.width = `${maxWidth}px`;
+            
+            qrBackdrop.style.display = 'block';
+            floatingQR.style.display = 'block';
+        }
+
+        // Close floating QR
+        function closeFloatingQR() {
+            document.getElementById('qrBackdrop').style.display = 'none';
+            document.getElementById('floatingQR').style.display = 'none';
+        }
+
+        // Settings functions
+        function showSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('hidden');
+            // Load current settings
+            document.getElementById('bgColorPicker').value = localStorage.getItem('bgColor') || '#f3f4f6';
+            document.getElementById('paymentBoxColorPicker').value = localStorage.getItem('paymentBoxColor') || '#ffffff';
+            document.getElementById('qrisBoxColorPicker').value = localStorage.getItem('qrisBoxColor') || '#ffffff';
+        }
+
+        function hideSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+            document.getElementById('themePassword').value = '';
+            document.getElementById('themePasswordError').classList.add('hidden');
+        }
+
+        function saveThemeSettings() {
+            const password = document.getElementById('themePassword').value;
+            if (password !== 'ABIGANTENGSTORE21') {
+                document.getElementById('themePasswordError').classList.remove('hidden');
+                return;
+            }
+
+            const bgColor = document.getElementById('bgColorPicker').value;
+            const paymentBoxColor = document.getElementById('paymentBoxColorPicker').value;
+            const qrisBoxColor = document.getElementById('qrisBoxColorPicker').value;
+            
+            localStorage.setItem('bgColor', bgColor);
+            localStorage.setItem('paymentBoxColor', paymentBoxColor);
+            localStorage.setItem('qrisBoxColor', qrisBoxColor);
+            
+            // Apply colors
+            document.body.style.backgroundColor = bgColor;
+            document.querySelectorAll('.bg-white').forEach(el => {
+                el.style.backgroundColor = paymentBoxColor;
+            });
+            document.querySelector('.bg-white.rounded-xl.shadow-md').lastElementChild.style.backgroundColor = qrisBoxColor;
+            
+            hideSettingsModal();
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('qrBackdrop')) {
+                closeFloatingQR();
+            }
+            if (event.target === document.getElementById('addQRISModal')) {
+                hideAddQRISModal();
+            }
+            if (event.target === document.getElementById('settingsModal')) {
+                hideSettingsModal();
+            }
+        });
+    </script>
+</body>
+</html>
+
